@@ -2,7 +2,8 @@
 
 namespace FileTransferringWebAPI.CustomAnatations
 {
-    public class ExtensionsAttribute:ValidationAttribute
+    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = false)]
+    public class ExtensionsAttribute : ValidationAttribute
     {
         private readonly string[] _extensions;
         public ExtensionsAttribute(string[] extensions)
@@ -18,7 +19,7 @@ namespace FileTransferringWebAPI.CustomAnatations
             {
                 var extension = Path.GetExtension(file.FileName);
 
-                if(!_extensions.Contains(extension))
+                if (!_extensions.Contains(extension))
                 {
                     return new ValidationResult($"Bizda faqat ({string.Join(',', _extensions)}) shu extensiondagi filelarni yuklashga ruxsat bor");
                 }

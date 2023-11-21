@@ -11,14 +11,14 @@ namespace FileTransferringWebAPI.Controllers
         public async Task<IActionResult> CreateProductImageAsync([FromForm] ProductImageCreationDTO imageDTO)
         {
             var filePath = Path.Combine(
-                _environment.WebRootPath, 
+                _environment.WebRootPath,
                 Guid.NewGuid().ToString() + "-" + imageDTO.File.Name + Path.GetExtension(imageDTO.File.FileName));
 
             FileStream fileStream = System.IO.File.Create(filePath);
             await imageDTO.File.CopyToAsync(fileStream);
             await fileStream.FlushAsync();
             fileStream.Close();
-            
+
             var productImage = new ProductImage()
             {
                 ProductId = imageDTO.ProductId,
@@ -40,7 +40,7 @@ namespace FileTransferringWebAPI.Controllers
         {
             var product = await _context.Products.Include(x => x.Images).FirstOrDefaultAsync(x => x.Id == id);
 
-            return File(System.IO.File.ReadAllBytes(product.Images[0].FilePath),"image/png");
+            return File(System.IO.File.ReadAllBytes(product.Images[0].FilePath), "image/png");
         }
     }
 }
