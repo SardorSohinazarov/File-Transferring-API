@@ -1,4 +1,5 @@
-﻿using FileTransferringWebAPI.Entities;
+﻿using FileTransferringWebAPI.CustomAnatations;
+using FileTransferringWebAPI.Entities;
 using System.ComponentModel.DataAnnotations;
 
 namespace FileTransferringWebAPI.DTOs
@@ -11,6 +12,7 @@ namespace FileTransferringWebAPI.DTOs
         [Range(0, long.MaxValue, ErrorMessage = "Product Id bu oraliqda bo'lishi mumkin emas")]
         public long ProductId { get; set; }
 
+        [Extensions(new string[] { ".jpg", ".png" , ".jpeg" })]
         public IFormFile File { get; set; }
 
     }
