@@ -10,12 +10,14 @@ namespace FileTransferringWebAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateProductImageAsync([FromForm] ProductImageCreationDTO imageDTO)
         {
+            var file = imageDTO.File;
+
             var filePath = Path.Combine(
                 _environment.WebRootPath,
-                Guid.NewGuid().ToString() + "-" + imageDTO.File.Name + Path.GetExtension(imageDTO.File.FileName));
+                Guid.NewGuid().ToString() + "-" + file.Name + Path.GetExtension(file.FileName));
 
             FileStream fileStream = System.IO.File.Create(filePath);
-            await imageDTO.File.CopyToAsync(fileStream);
+            await file.CopyToAsync(fileStream);
             await fileStream.FlushAsync();
             fileStream.Close();
 
