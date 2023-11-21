@@ -17,6 +17,9 @@ fileStream.Close();
 //IFormFile typedagi fileni olib yangi filePath yaratib o'sha pathga ko'chirib o'tayapmiz
 ```
 
+
+
+
 > Custom Validation Attribute yozish
 
 ```csharp
