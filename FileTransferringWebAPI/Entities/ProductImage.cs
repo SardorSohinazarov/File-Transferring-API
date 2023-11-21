@@ -1,4 +1,6 @@
-﻿namespace FileTransferringWebAPI.Entities
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace FileTransferringWebAPI.Entities
 {
     public class ProductImage
     {
