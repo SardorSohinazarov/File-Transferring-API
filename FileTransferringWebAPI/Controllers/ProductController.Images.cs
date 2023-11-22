@@ -1,6 +1,7 @@
 ﻿using FileTransferringWebAPI.DTOs;
 using FileTransferringWebAPI.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.EntityFrameworkCore;
 
 namespace FileTransferringWebAPI.Controllers
@@ -38,11 +39,16 @@ namespace FileTransferringWebAPI.Controllers
             => Ok(await _context.ProductImages.ToListAsync());
 
         [HttpGet]
-        public async Task<IActionResult> GetProductImageByProductIdAsync(long id)
+        public async Task<IActionResult> DownloadFile(string filepath)
         {
-            var product = await _context.Products.Include(x => x.Images).FirstOrDefaultAsync(x => x.Id == id);
+            var provider = new FileExtensionContentTypeProvider();
+            if (!provider.TryGetContentType(filepath, out var contenttype))
+            {
+                contenttype = "application/octet-stream";
+            }
 
-            return File(System.IO.File.ReadAllBytes(product.Images[0].FilePath), "image/png");
+            var bytes = await System.IO.File.ReadAllBytesAsync(filepath);
+            return File(bytes, contenttype, Path.GetFileName(filepath));
         }
     }
 }
