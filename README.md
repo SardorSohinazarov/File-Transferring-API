@@ -21,6 +21,25 @@ fileStream.Close();
 <br/>
 <br/>
 
+> Filelarni downland qilish 
+
+```csharp
+public async Task<IActionResult> DownloadFile(string filepath)
+{
+    var provider = new FileExtensionContentTypeProvider();
+    if (!provider.TryGetContentType(filepath, out var contenttype))
+    {
+        contenttype = "application/octet-stream";
+    }
+
+    var bytes = await System.IO.File.ReadAllBytesAsync(filepath);
+    return File(bytes, contenttype, Path.GetFileName(filepath));
+}
+```
+
+<br/>
+<br/>
+<br/>
 
 > Custom Validation Attribute yozish
 
